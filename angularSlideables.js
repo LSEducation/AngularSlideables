@@ -13,8 +13,8 @@ angular.module('angularSlideables', [])
                 attrs.easing = (!attrs.easing) ? 'ease-in-out' : attrs.easing;
                 element.css({
                     'overflow': 'hidden',
-                    'height': '0px',
-                    'transitionProperty': 'height',
+                    'max-height': '0px',
+                    'transitionProperty': 'max-height',
                     'transitionDuration': attrs.duration,
                     'transitionTimingFunction': attrs.easing
                 });
@@ -26,13 +26,13 @@ angular.module('angularSlideables', [])
     return {
         restrict: 'A',
         link: function(scope, element, attrs) {
-            var target, content;
 
-            element.bind('click', function() {
+            element.bind('click', function() {    
+                var target, content;
                 if (!target && attrs.slideToggle) target = document.querySelector(attrs.slideToggle);
                 if(target) {
 
-                    if(target.style.height === '0px') {
+                    if(target.style.maxHeight === '0px') {
                       attrs.expanded = false;
                     } else {
                       attrs.expanded = true;
@@ -44,12 +44,13 @@ angular.module('angularSlideables', [])
                         content.style.border = '1px solid rgba(0,0,0,0)';
                         var y = content.clientHeight;
                         content.style.border = 0;
-                        target.style.height = y + 'px';
+                        target.style.height = 'auto';
+                        target.style.maxHeight = '1000px';
+                        attrs.expanded = true;
                     } else {
-                        target.style.height = '0px';
+                        target.style.maxHeight = '0px';
+                        attrs.expanded = false;
                     }
-
-                    attrs.expanded = !attrs.expanded;
                 }
             });
         }
